@@ -1,0 +1,57 @@
+version: '2.1'
+
+services:
+  nginx:
+    image: nginx:1.21.3
+    container_name: nginx
+    environment:
+      - TZ=Europe/Budapest
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    restart: unless-stopped
+    mem_limit: 256M
+    networks:
+      - frontend
+    depends_on:
+      - flask
+
+  flask:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: flask
+    environment:
+      - TZ=Europe/Budapest
+    command: gunicorn --bind 0.0.0.0:8000 --workers 4 "app.main:api()"
+    volumes:
+      - ./:/var/www
+    restart: unless-stopped
+    mem_limit: 256M
+    networks:
+      frontend:
+        aliases:
+          - flask-app
+      backend:
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    environment:
+      - TZ=Europe/Budapest
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis-data:/data
+    restart: unless-stopped
+    mem_limit: 256M
+    networks:
+      backend:
+
+networks:
+  frontend:
+  backend:
