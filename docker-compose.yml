@@ -24,7 +24,7 @@ services:
     container_name: flask
     environment:
       - TZ=Europe/Budapest
-    command: gunicorn --bind 0.0.0.0:8000 --workers 4 "app.main:api()"
+    command: gunicorn --bind 0.0.0.0:8000 --workers 4 "app.main:flask_api()"
     volumes:
       - ./:/var/www
     restart: unless-stopped
