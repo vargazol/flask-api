@@ -15,9 +15,7 @@ def flask_api():
 
     @app.route("/", methods=["GET"])
     def list_namespaces():
-        namespaces = []
-        for namespace in r.scan_iter():
-            namespaces.append(namespace)
+        namespaces = [namespace for namespace in r.scan_iter()]
         namespace_list = jsonify(namespaces)
         return namespace_list, 200, response_type
 
