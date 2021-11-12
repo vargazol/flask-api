@@ -50,7 +50,7 @@ services:
     restart: unless-stopped
     mem_limit: 256M
     networks:
-      backend:
+      - backend
 
 networks:
   frontend:
