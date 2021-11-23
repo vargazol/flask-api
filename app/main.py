@@ -13,7 +13,7 @@ def flask_api():
         namespaces = [namespace for namespace in r.scan_iter()]
         True if namespace in namespaces else False
 
-    @app.route("/", methods=["GET"])
+    @app.route('/', methods=["GET"])
     def list_namespaces():
         namespaces = [namespace for namespace in r.scan_iter()]
         namespace_list = jsonify(namespaces)
@@ -28,7 +28,7 @@ def flask_api():
             namespace_content = response.replace("'", "\"")
         return namespace_content, 200, response_type
 
-    @ app.route('/<string:namespace>', methods=["PUT"])
+    @app.route('/<string:namespace>', methods=["PUT"])
     def create_namespace(namespace):
         if does_namespace_exist(namespace):
             return {"created": False, "reason": "namespace already exists"}, 409, response_type
@@ -49,7 +49,7 @@ def flask_api():
             r.set(namespace, f"{modified_namespace}")
         return modified_namespace, 200, response_type
 
-    @ app.route('/<string:namespace>', methods=["DELETE"])
+    @app.route('/<string:namespace>', methods=["DELETE"])
     def delete_namespace(namespace):
         if does_namespace_exist(namespace) == False:
             return {"deleted": False, "reason": "requested namespace not found"}, 404, response_type
