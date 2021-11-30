@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import json
 import redis
 from flask import Flask, request, jsonify
