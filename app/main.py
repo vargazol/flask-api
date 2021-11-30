@@ -11,7 +11,7 @@ response_type = {'Content-Type': 'application/json'}
 def flask_api():
     def does_namespace_exist(namespace):
         namespaces = [namespace for namespace in r.scan_iter()]
-        True if namespace in namespaces else False
+        return True if namespace in namespaces else False
 
     @app.route('/', methods=["GET"])
     def list_namespaces():
